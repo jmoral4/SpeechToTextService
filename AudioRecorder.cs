@@ -13,17 +13,17 @@ namespace SpeechToTextService
         private WaveInEvent _waveIn;
         private WaveFileWriter _waveFileWriter;
         private string _tempFilePath;
-        private int sampleRate; // The sample rate of your audio (e.g. 16000)
+        private int _sampleRate; // The sample rate of your audio (e.g. 16000)
 
         public AudioRecorder(string outputFileName, int sampleRate = 16000)
         {
             this._tempFilePath = outputFileName;
-            this.sampleRate = sampleRate;
+            this._sampleRate = sampleRate;
         }
 
         public void StartRecording()
         {
-            _waveIn = new WaveInEvent { WaveFormat = new WaveFormat(sampleRate, 1) };            
+            _waveIn = new WaveInEvent { WaveFormat = new WaveFormat(_sampleRate, 1) };            
             _waveIn.DataAvailable += OnDataAvailable;
             //_waveIn.RecordingStopped += OnRecordingStopped;
             _tempFilePath = "test.wav";// Path.GetTempFileName(); 

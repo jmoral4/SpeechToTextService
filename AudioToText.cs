@@ -11,13 +11,13 @@ namespace SpeechToTextService
 
         private readonly string _apiKey;
         private readonly string _languageCode;
-        private int sampleRate; // The sample rate of your audio (e.g. 16000)
+        private int _sampleRate; // The sample rate of your audio (e.g. 16000)
 
         public AudioToText(string apiKey, string languageCode = "en-US", int sampleRate = 16000)
         {
             _apiKey = apiKey;
             _languageCode = languageCode;
-            this.sampleRate = sampleRate;
+            this._sampleRate = sampleRate;
         }        
 
         public static async Task Test(string key, int recordingLengthInMilliseconds = 10000)
@@ -28,7 +28,12 @@ namespace SpeechToTextService
             Console.WriteLine("Recording...");
             recorder.StartRecording();
 
-            Thread.Sleep(recordingLengthInMilliseconds);
+            // Countdown while recording is in progress
+            for (int i = recordingLengthInMilliseconds / 1000; i > 0; i--)
+            {
+                Console.WriteLine($"Time remaining: {i}");
+                Thread.Sleep(1000);
+            }            
 
             Console.WriteLine("Recording stopped.");
             recorder.StopRecording();
