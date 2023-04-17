@@ -1,4 +1,5 @@
 ﻿using SpeechToTextService;
+using System.Runtime.InteropServices;
 
 namespace SpeechToText.Testbed
 {
@@ -7,12 +8,15 @@ namespace SpeechToText.Testbed
         static async Task Main(string[] args)
         {
             // load apikey from a file called api.key
-            Console.WriteLine("Speech to Text text. Press [ENTER] and then speak until the countdown completes.");
-            Console.ReadKey();
+            Console.WriteLine("Speech to Text text.");
+           // Console.ReadKey();
             var key = File.ReadAllText("api.key"); //set your api key to 'copy if newer' or just drop it in the output dir
-            await AudioToText.Test(key);
+
+            await AudioToText.PushToTalkTest(key);
             
 
         }
     }
+
+    
 }

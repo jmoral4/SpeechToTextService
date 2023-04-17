@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Net.Http.Headers;
 using System.Diagnostics;
+using System.Text;
 
 namespace SpeechToTextService
 {
@@ -18,7 +19,55 @@ namespace SpeechToTextService
             _apiKey = apiKey;
             _languageCode = languageCode;
             this._sampleRate = sampleRate;
-        }        
+        }
+
+        public static async Task PushToTalkTest(string key)
+        {
+            // Create a new AudioRecorder object with "test.wav" as the output file name
+            AudioRecorder recorder = new AudioRecorder("test.wav");
+
+            // Choose a key for Push-to-Talk, for example, the Spacebar
+            ConsoleKey pushToTalkKey = ConsoleKey.Spacebar;
+
+            Console.WriteLine($"Press and hold the {pushToTalkKey} key to start recording. Release the key to stop recording.");
+
+            bool isRecording = false;
+
+            while (true)
+            {
+                if (Keyboard.IsKeyDown(pushToTalkKey) && !isRecording)
+                {
+                    Console.WriteLine("Recording...");
+                    recorder.StartRecording();
+                    isRecording = true;
+                }
+                else if (!Keyboard.IsKeyDown(pushToTalkKey) && isRecording)
+                {
+                    Console.WriteLine("Recording stopped.");
+                    recorder.StopRecording();
+                    isRecording = false;
+
+                    // Create a new AudioToText object with your OpenAI API key, language, and sample rate as parameters
+                    AudioToText audioToText = new AudioToText(key, "en-US");
+
+                    // Get the text from the audio file
+                    Console.WriteLine("Getting text from audio...");
+                    string text = await audioToText.TranscribeAudioFileAsync("test.wav");
+
+                    // Display the text
+                    Console.WriteLine("Text: " + text);
+
+                    Console.WriteLine($"Press and hold the {pushToTalkKey} key to record again. Press 'Q' to quit.");
+                }
+                else if (Keyboard.IsKeyDown(ConsoleKey.Q))
+                {
+                    break; // Quit the application
+                }
+
+                await Task.Delay(50); // Polling interval
+            }
+        }
+
 
         public static async Task Test(string key, int recordingLengthInMilliseconds = 10000)
         {
