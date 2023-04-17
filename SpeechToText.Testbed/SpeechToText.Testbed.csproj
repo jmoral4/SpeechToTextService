@@ -11,4 +11,10 @@
     <ProjectReference Include="..\SpeechToTextService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="api.key">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using NAudio.Wave.Compression;
 using System.Text;
+using System.Diagnostics;
 
 namespace SpeechToTextService
 {
@@ -25,7 +26,7 @@ namespace SpeechToTextService
             _waveIn = new WaveInEvent { WaveFormat = new WaveFormat(sampleRate, 1) };            
             _waveIn.DataAvailable += OnDataAvailable;
             //_waveIn.RecordingStopped += OnRecordingStopped;
-            _tempFilePath = "test.wav";// Path.GetTempFileName();
+            _tempFilePath = "test.wav";// Path.GetTempFileName(); 
             _waveFileWriter = new WaveFileWriter(_tempFilePath, _waveIn.WaveFormat);
             _waveIn.StartRecording();
         }
@@ -44,7 +45,7 @@ namespace SpeechToTextService
             // If there is an exception, display it
             if (e.Exception != null)
             {
-                Console.WriteLine(e.Exception.Message);
+                Debug.WriteLine(e.Exception.Message);
             }
         }
 
@@ -64,7 +65,7 @@ namespace SpeechToTextService
             }
 
             //string text = TranscribeAudioFile(_tempFilePath);
-            Console.WriteLine("Recording Stopped.");
+            Debug.WriteLine("Recording Stopped.");
         }
     }
 }
