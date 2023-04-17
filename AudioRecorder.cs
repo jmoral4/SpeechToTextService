@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using NAudio.Wave;
-using RestSharp;
 using System;
 using System.IO;
 using NAudio.Wave.Compression;
